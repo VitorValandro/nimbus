@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MeasureRepository } from '../persistence/measure.repository';
-import { MeasureDomain } from '../domain/measure';
+import { MeasureDomain, MeasureProps } from '../domain/measure';
+import { Zambretti } from '../../shared/domain/zambretti';
 
 @Injectable()
 export class MeasureService {
@@ -29,8 +30,29 @@ export class MeasureService {
     return measures.map((measure) => new MeasureDomain(measure));
   }
 
-  async createMeasure(data: MeasureDomain): Promise<MeasureDomain> {
-    const measureModel = await this.repository.createMeasure(data);
+  async createMeasure(data: MeasureProps): Promise<MeasureDomain> {
+    const measure = new MeasureDomain(data);
+    measure.timestamp = new Date();
+
+    const currentPressureAtSeaLevel = measure.pressure;
+
+    const lastMeasure = await this.repository.measureFromPastThreeHours(
+      measure.timestamp,
+    );
+
+    const lastMeasuredPressureAtSeaLevel = lastMeasure
+      ? new MeasureDomain(lastMeasure).pressure
+      : null;
+
+    measure.zambretti = Zambretti.calculateZambretti(
+      currentPressureAtSeaLevel,
+      lastMeasuredPressureAtSeaLevel,
+    );
+
+    const measureModel = await this.repository.createMeasure(
+      measure.toObject(),
+    );
+
     return new MeasureDomain(measureModel);
   }
 }

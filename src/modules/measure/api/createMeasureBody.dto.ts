@@ -1,12 +1,13 @@
-import { IsNumber, Min } from 'class-validator';
+import { IsNumber, IsOptional, Min } from 'class-validator';
 import { IsValidTimestamp } from '../../../infrastructure/validators/IsValidTimestamp';
 
 export class CreateMeasureBody {
+  @IsOptional()
   @IsValidTimestamp({
     message:
       'The timestamp must be a valid timestamp integer or a valid ISO8601 date string',
   })
-  timestamp: number | Date;
+  timestamp?: number | Date;
 
   @IsNumber(
     { allowNaN: false, allowInfinity: false },

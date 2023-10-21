@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma.service';
 import { Measure, Prisma } from '@prisma/client';
+import { DateDomain } from 'src/modules/shared/domain/date';
 
 @Injectable()
 export class MeasureRepository {
@@ -28,6 +29,25 @@ export class MeasureRepository {
       cursor,
       where,
       orderBy,
+    });
+  }
+
+  async measureFromPastThreeHours(
+    referenceDate: Date,
+  ): Promise<Measure | null> {
+    const dateRangeStart = DateDomain.addHoursToDate(referenceDate, -6);
+    const dateRangeEnd = DateDomain.addHoursToDate(referenceDate, -3);
+
+    return this.prisma.measure.findFirst({
+      where: {
+        timestamp: {
+          gte: dateRangeStart,
+          lte: dateRangeEnd,
+        },
+      },
+      orderBy: {
+        timestamp: 'desc',
+      },
     });
   }
 

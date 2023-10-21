@@ -1,11 +1,30 @@
-version: '3.7'
+version: '3.8'
+
+# For connection urls to the following instances, see
+# https://github.com/prisma/prisma/blob/main/TESTING.md#environment-variables
 services:
-  mongodb_container:
-    # This image automatically creates a replica set required for transactions
-    image: prismagraphql/mongo-single-replica:4.4.3-bionic
+  # Replica Set (required for Prisma Client)
+  mongo:
+    container_name: mongo
+    build:
+      dockerfile: ./docker/mongo.Dockerfile
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: prisma
-      INIT_WAIT_SEC: 3
+      MONGO_REPLICA_HOST: 127.0.0.1
+      MONGO_REPLICA_PORT: 27018
+    env_file:
+      - .env
     ports:
-      - 27017:27017
+      - '27018:27018'
+  web:
+    build:
+      dockerfile: ./docker/app.Dockerfile
+    environment:
+      DATABASE_URL: mongodb://root:prisma@mongo:27018/prisma-mongo?authSource=admin&replicaSet=rs0&retryWrites=true&w=majority&directConnection=true
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo

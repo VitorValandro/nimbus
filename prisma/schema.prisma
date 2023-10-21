@@ -17,4 +17,5 @@ model Measure {
   moisture           Float
   temperature_dht22  Float
   temperature_bmp180 Float
+  zambretti_value    Int
 }

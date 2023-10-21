@@ -2,7 +2,6 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MeasureService } from '../service/measure.service';
 import { GetAllMeasuresQueryParams } from './getAllMeasuresQueryParams.dto';
 import { CreateMeasureBody } from './createMeasureBody.dto';
-import { MeasureDomain } from '../domain/measure';
 
 @Controller('measure')
 export class MeasureController {
@@ -15,7 +14,6 @@ export class MeasureController {
 
   @Post()
   async create(@Body() data: CreateMeasureBody) {
-    const measure = new MeasureDomain(data);
-    return this.measureService.createMeasure(measure);
+    return this.measureService.createMeasure(data);
   }
 }
