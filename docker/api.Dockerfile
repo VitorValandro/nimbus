@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Copy the .env and .env.development files
-COPY .env ./
+COPY .env.staging ./
 
 ARG DATABASE_URL="mongodb://root:prisma@mongo:27018/prisma-mongo?authSource=admin&replicaSet=rs0&retryWrites=true&w=majority&directConnection=true"
 

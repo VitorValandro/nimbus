@@ -12,6 +12,11 @@ export class MeasureController {
     return this.measureService.listAll(query);
   }
 
+  @Get('/today')
+  async getAllMeasurementsTakenToday() {
+    return this.measureService.listAllTodayMeasurements();
+  }
+
   @Post()
   async create(@Body() data: CreateMeasureBody) {
     return this.measureService.createMeasure(data);

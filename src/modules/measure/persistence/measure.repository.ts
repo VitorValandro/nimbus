@@ -32,6 +32,26 @@ export class MeasureRepository {
     });
   }
 
+  async measuresForAllDay(referenceDate: Date): Promise<Measure[]> {
+    const todayStartDate = new Date(referenceDate);
+    todayStartDate.setHours(0, 0, 0, 0);
+
+    const todayEndDate = new Date(referenceDate);
+    todayEndDate.setHours(23, 59, 29, 999);
+
+    return this.prisma.measure.findMany({
+      where: {
+        timestamp: {
+          gte: todayStartDate,
+          lte: todayEndDate,
+        },
+      },
+      orderBy: {
+        timestamp: 'desc',
+      },
+    });
+  }
+
   async measureFromPastThreeHours(
     referenceDate: Date,
   ): Promise<Measure | null> {
