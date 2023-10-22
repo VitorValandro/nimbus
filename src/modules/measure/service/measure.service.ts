@@ -42,7 +42,7 @@ export class MeasureService {
     );
 
     const cachedData = await this.redis.getCachedTodayMeasures();
-    if (cachedData.length > 0) {
+    if (cachedData?.length) {
       this.logger.log(
         `Cache hit on '${TODAY_MEASURES_CACHE_KEY}' key. Retrieving results from cache.`,
       );
