@@ -56,10 +56,12 @@ export class MeasureService {
     const result = await this.repository.measuresForAllDay(new Date());
     const measures = result.map((measure) => new MeasureDomain(measure));
 
-    this.logger.log(
-      `Finished retrieving ${measures.length} results from database. Storing results on cache.`,
-    );
-    await this.redis.setCachedTodayMeasures(measures);
+    if (measures.length > 0) {
+      this.logger.log(
+        `Finished retrieving ${measures.length} results from database. Storing results on cache.`,
+      );
+      await this.redis.setCachedTodayMeasures(measures);
+    }
 
     this.logger.log(`Finished listing all measurements`);
     return measures;
