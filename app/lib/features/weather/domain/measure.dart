@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:nimbus/core/domain/date_value.dart';
-import 'package:nimbus/core/domain/measure/zambretti.dart';
+import 'package:nimbus/features/weather/domain/zambretti.dart';
 
 class Measure {
   DateValue timestamp;
@@ -37,10 +37,11 @@ class Measure {
   factory Measure.fromMap(Map<String, dynamic> map) {
     return Measure(
       timestamp: DateValue.create(map['timestamp']),
-      pressure: map['pressure'],
-      moisture: map['moisture'],
-      temperature: map['temperature'],
-      zambretti: ZambrettiExtension.getZambrettiEnumFromInt(map['zambretti']),
+      pressure: map['pressure'].toDouble(),
+      moisture: map['moisture'].toDouble(),
+      temperature: map['temperature'].toDouble(),
+      zambretti:
+          ZambrettiExtension.getZambrettiEnumFromInt(map['zambretti'].toInt()),
     );
   }
 

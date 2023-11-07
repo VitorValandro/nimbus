@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({super.key, required this.title});
+class WeatherDashboard extends StatefulWidget {
+  const WeatherDashboard({super.key, required this.title});
 
   final String title;
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<WeatherDashboard> createState() => _WeatherDashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _WeatherDashboardState extends State<WeatherDashboard> {
   int _counter = 0;
 
   void _incrementCounter() {
