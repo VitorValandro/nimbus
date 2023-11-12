@@ -75,7 +75,7 @@ class DateValue extends ValueObject<String> {
   String getTime() {
     DateTime parsedDate = DateTime.parse(getValue());
 
-    return DateFormat.jm().format(parsedDate);
+    return DateFormat.jm('pt_BR').format(parsedDate);
   }
 
   bool isToday() {

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 enum ZambrettiEnum {
   fallingSettledFine,
   fallingFineWeather,
@@ -102,6 +104,31 @@ extension ZambrettiExtension on ZambrettiEnum {
         return ZambrettiEnum.risingStormyMuchRain;
       default:
         throw Exception("Invalid integer value: $value");
+    }
+  }
+
+  String get animation {
+    switch (this) {
+      default:
+        return 'assets/storm.json';
+    }
+  }
+
+  String get title {
+    switch (this) {
+      default:
+        return 'Ensolarado';
+    }
+  }
+
+  Color get gradientColor {
+    switch (this) {
+      case ZambrettiEnum.steadySettledFine:
+        return const Color.fromARGB(255, 244, 235, 195);
+
+      case ZambrettiEnum.steadyStormyMuchRain:
+      default:
+        return Color.fromARGB(131, 184, 184, 189);
     }
   }
 }

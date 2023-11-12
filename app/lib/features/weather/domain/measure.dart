@@ -17,6 +17,13 @@ class Measure {
     required this.zambretti,
   });
 
+  static double getTemperaturesMean(
+    double temperatureDht22,
+    double temperatureBmp180,
+  ) {
+    return (temperatureDht22 + temperatureBmp180) / 2;
+  }
+
   Measure copyWith({
     DateValue? timestamp,
     double? pressure,
@@ -75,10 +82,15 @@ class Measure {
         zambretti.hashCode;
   }
 
-  static double getTemperaturesMean(
-    double temperatureDht22,
-    double temperatureBmp180,
-  ) {
-    return (temperatureDht22 + temperatureBmp180) / 2;
+  String get formattedTemperature {
+    return "${temperature.round().toString()}°";
+  }
+
+  String get formattedMoisture {
+    return "${moisture.toString()}%";
+  }
+
+  String get formattedTime {
+    return timestamp.getTime();
   }
 }
