@@ -23,9 +23,12 @@ class MeasuresService {
       },
       (measures) async {
         await _measuresStore.update(measures);
-
         if (onSuccess != null) onSuccess(measures);
       },
     );
+  }
+
+  Measure? getLatestMeasure() {
+    return _measuresStore.current.firstOrNull;
   }
 }

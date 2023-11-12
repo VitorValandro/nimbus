@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:nimbus/core/domain/date_value.dart';
 import 'package:nimbus/features/weather/domain/zambretti.dart';
 
 class Measure {
   DateValue timestamp;
-  Float pressure;
-  int moisture;
-  Float temperature;
+  double pressure;
+  double moisture;
+  double temperature;
   ZambrettiEnum zambretti;
   Measure({
     required this.timestamp,
@@ -20,9 +19,9 @@ class Measure {
 
   Measure copyWith({
     DateValue? timestamp,
-    Float? pressure,
-    int? moisture,
-    Float? temperature,
+    double? pressure,
+    double? moisture,
+    double? temperature,
     ZambrettiEnum? zambretti,
   }) {
     return Measure(
@@ -39,7 +38,10 @@ class Measure {
       timestamp: DateValue.create(map['timestamp']),
       pressure: map['pressure'].toDouble(),
       moisture: map['moisture'].toDouble(),
-      temperature: map['temperature'].toDouble(),
+      temperature: getTemperaturesMean(
+        map['temperature_dht22'].toDouble(),
+        map['temperature_bmp180'].toDouble(),
+      ),
       zambretti:
           ZambrettiExtension.getZambrettiEnumFromInt(map['zambretti'].toInt()),
     );
@@ -71,5 +73,12 @@ class Measure {
         moisture.hashCode ^
         temperature.hashCode ^
         zambretti.hashCode;
+  }
+
+  static double getTemperaturesMean(
+    double temperatureDht22,
+    double temperatureBmp180,
+  ) {
+    return (temperatureDht22 + temperatureBmp180) / 2;
   }
 }
