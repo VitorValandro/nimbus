@@ -65,6 +65,17 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
                   ),
                 ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(bottom: Spacing.value(2)),
+                  child: Text(
+                    latestMeasure!.zambretti.description,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
                 const Spacer(),
                 // Container(
                 //   alignment: Alignment.center,
