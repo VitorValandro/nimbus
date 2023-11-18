@@ -6,33 +6,14 @@ import 'package:nimbus/features/weather/application/measure_service.dart';
 import 'package:nimbus/features/weather/domain/measure.dart';
 import 'package:nimbus/features/weather/domain/zambretti.dart';
 
-class WeatherDashboard extends StatefulWidget {
-  const WeatherDashboard({super.key, required this.title});
+class WeatherDashboard extends StatelessWidget {
+  WeatherDashboard({super.key});
 
-  final String title;
-
-  @override
-  State<WeatherDashboard> createState() => _WeatherDashboardState();
-}
-
-class _WeatherDashboardState extends State<WeatherDashboard> {
-  Measure? latestMeasure;
   final MeasuresService _measuresService = MeasuresService();
 
   @override
-  void initState() {
-    super.initState();
-
-    () async {
-      await _measuresService.fetchMeasures();
-      setState(() {
-        latestMeasure = _measuresService.getLatestMeasure();
-      });
-    }();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Measure? latestMeasure = _measuresService.getLatestMeasure();
     logger.d(latestMeasure);
 
     if (latestMeasure == null) return const Scaffold();
@@ -44,11 +25,11 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               gradient: RadialGradient(radius: 0.7, colors: [
-                latestMeasure!.zambretti.gradientColor,
+                latestMeasure.zambretti.gradientColor,
                 Colors.white,
               ]),
             ),
-            child: Lottie.asset(latestMeasure!.zambretti.animation),
+            child: Lottie.asset(latestMeasure.zambretti.animation),
           ),
           Container(
             padding: EdgeInsets.only(
@@ -69,18 +50,13 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(bottom: Spacing.value(2)),
                   child: Text(
-                    latestMeasure!.zambretti.description,
+                    latestMeasure.zambretti.description,
                     style: const TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 20,
                     ),
                   ),
                 ),
-                const Spacer(),
-                // Container(
-                //   alignment: Alignment.center,
-                //   child: Lottie.asset(latestMeasure!.zambretti.animation),
-                // ),
                 const Spacer(),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -90,7 +66,7 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                       Container(
                         margin: EdgeInsets.only(bottom: Spacing.value(2)),
                         child: Text(
-                          latestMeasure!.zambretti.title,
+                          latestMeasure.zambretti.title,
                           style: const TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 42,
@@ -98,13 +74,13 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                         ),
                       ),
                       Text(
-                        latestMeasure!.formattedTemperature,
+                        latestMeasure.formattedTemperature,
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 36,
                         ),
                       ),
-                      Text(latestMeasure!.formattedMoisture,
+                      Text(latestMeasure.formattedMoisture,
                           style: const TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 28,
@@ -115,7 +91,7 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                 Container(
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    latestMeasure!.formattedTime,
+                    latestMeasure.formattedTime,
                     style: const TextStyle(fontWeight: FontWeight.w300),
                   ),
                 )

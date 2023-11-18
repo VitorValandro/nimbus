@@ -15,6 +15,12 @@ class DateValue extends ValueObject<String> {
     return Right(DateTime.parse(dateString).toLocal().toString());
   }
 
+  static DateValue fromTimestamp(timestampInMilliseconds) => DateValue.create(
+      DateTime.fromMillisecondsSinceEpoch(timestampInMilliseconds).toString());
+
+  double get unixTimestamp =>
+      fromDateValueToDateTime().millisecondsSinceEpoch.toDouble();
+
   DateTime fromDateValueToDateTime() {
     return DateTime.parse(getValue().toString());
   }

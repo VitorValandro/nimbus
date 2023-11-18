@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:nimbus/core/domain/chart_data.dart';
 import 'package:nimbus/core/domain/request_failure.dart';
 import 'package:nimbus/features/weather/domain/measure.dart';
 import 'package:nimbus/features/weather/infrastructure/measure_repository.dart';
@@ -30,5 +31,15 @@ class MeasuresService {
 
   Measure? getLatestMeasure() {
     return _measuresStore.current.firstOrNull;
+  }
+
+  List<ChartData>? getTodayMeasureTemperatureChartData() {
+    List<Measure> measures = _measuresStore.current;
+    return Measure.getTemperatureCharData(measures);
+  }
+
+  List<ChartData>? getTodayMeasureMoistureChartData() {
+    List<Measure> measures = _measuresStore.current;
+    return Measure.getMoistureCharData(measures);
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:nimbus/core/domain/chart_data.dart';
 import 'package:nimbus/core/domain/date_value.dart';
 import 'package:nimbus/features/weather/domain/zambretti.dart';
 
@@ -22,6 +23,26 @@ class Measure {
     double temperatureBmp180,
   ) {
     return (temperatureDht22 + temperatureBmp180) / 2;
+  }
+
+  static List<ChartData> getTemperatureCharData(List<Measure> measures) {
+    List<ChartData> chartData = [];
+
+    for (Measure measure in measures) {
+      chartData.add(ChartData(measure.timestamp, measure.temperature));
+    }
+
+    return chartData;
+  }
+
+  static List<ChartData> getMoistureCharData(List<Measure> measures) {
+    List<ChartData> chartData = [];
+
+    for (Measure measure in measures) {
+      chartData.add(ChartData(measure.timestamp, measure.moisture));
+    }
+
+    return chartData;
   }
 
   Measure copyWith({

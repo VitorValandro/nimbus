@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:nimbus/features/weather/application/measure_service.dart';
+import 'package:nimbus/features/weather/presentation/screens/weather_charts.dart';
 import 'package:nimbus/features/weather/presentation/screens/weather_dashboard.dart';
 
 void main() {
@@ -7,20 +9,32 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final MeasuresService _measuresService = MeasuresService();
+
+  @override
+  void initState() {
+    super.initState();
+    _measuresService.fetchMeasures();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        fontFamily: 'Poppins',
-        useMaterial3: true,
-      ),
-      home: const WeatherDashboard(title: 'Flutter Demo Home Page'),
-    );
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          fontFamily: 'Poppins',
+          useMaterial3: true,
+        ),
+        home: PageView(
+          children: [WeatherDashboard(), WeatherCharts()],
+        ));
   }
 }
