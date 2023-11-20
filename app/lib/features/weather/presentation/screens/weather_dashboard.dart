@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nimbus/core/application/logger.dart';
 import 'package:nimbus/core/utils/spacing.dart';
-import 'package:nimbus/features/weather/application/measure_service.dart';
 import 'package:nimbus/features/weather/domain/measure.dart';
 import 'package:nimbus/features/weather/domain/zambretti.dart';
 
 class WeatherDashboard extends StatelessWidget {
-  WeatherDashboard({super.key});
+  const WeatherDashboard(
+      {key, required this.latestMeasure, required this.onRefresh})
+      : super(key: key);
 
-  final MeasuresService _measuresService = MeasuresService();
+  final Measure latestMeasure;
+  final void Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
-    Measure? latestMeasure = _measuresService.getLatestMeasure();
-    logger.d(latestMeasure);
-
-    if (latestMeasure == null) return const Scaffold();
-
     return Scaffold(
       body: Stack(
         children: [
@@ -41,9 +37,17 @@ class WeatherDashboard extends StatelessWidget {
               children: [
                 Container(
                   alignment: Alignment.topLeft,
-                  child: const Text(
-                    "Florianópolis",
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Florianópolis",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 30),
+                      ),
+                      IconButton(
+                          onPressed: onRefresh, icon: const Icon(Icons.refresh))
+                    ],
                   ),
                 ),
                 Container(

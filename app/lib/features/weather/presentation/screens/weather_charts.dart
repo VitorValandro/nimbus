@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nimbus/core/application/logger.dart';
 import 'package:nimbus/core/utils/spacing.dart';
-import 'package:nimbus/features/weather/application/measure_service.dart';
-import 'package:nimbus/features/weather/domain/measure.dart';
 import 'package:nimbus/features/weather/presentation/charts/moisture_chart.dart';
 import 'package:nimbus/features/weather/presentation/charts/temperature_chart.dart';
 
 class WeatherCharts extends StatelessWidget {
-  WeatherCharts({super.key});
-
-  final MeasuresService _measuresService = MeasuresService();
+  const WeatherCharts({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Measure? latestMeasure = _measuresService.getLatestMeasure();
-    logger.d(latestMeasure);
-
-    if (latestMeasure == null) return const Scaffold();
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
